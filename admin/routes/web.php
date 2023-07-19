@@ -31,4 +31,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('user/store', 'UserController@store')->name('user.store');
     Route::post('user/action/{status}', 'UserController@action')->name('user.action');
     Route::post('user/update/{id}', 'UserController@update')->name('user.update');
+    //==============PAGE===============
+    Route::get('page/list', 'PageController@list');
+    Route::get('page/add', 'PageController@add');
+    Route::get('page/delete/{id}', 'PageController@delete')->name('page.delete');
+    Route::get('page/edit/{id}', 'PageController@edit')->name('page.edit');
+    Route::post('page/store', 'PageController@store')->name('page.store');
+    Route::post('page/update/{id}', 'PageController@update')->name('page.update');
+});
+
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
 });
