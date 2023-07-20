@@ -36,8 +36,6 @@ class PageController extends Controller
             ]
         );
 
-        // return $request;
-
         Page::create(
             [
                 'name' => $request->input('name'),
@@ -53,35 +51,54 @@ class PageController extends Controller
     {
         return view('admin.page.add');
     }
+
+
     public function list(Request $request)
     {
-        $status = $request->status;
-
-        if ($request->status == 'public') {
-            $action = [
-                0 => 'Chờ duyệt',
-                'delete' => 'Xóa tạm thời'
-            ];
-            $pages = Page::where('status', '1')->paginate(3);
-        } else if ($request->status == 'waiting') {
-            $action = [
-                1 => 'Công khai',
-                'delete' => 'Xóa tạm thời'
-            ];
-            $pages = Page::where('status', '0')->paginate(3);
+        if ($request->keyword) {
+            $keyword = $request->keyword;
         } else {
+            $keyword = " ";
+        }
+
+        if ($request->status == 'disable') {
+            $status = 'disable';
             $action = [
                 0 => 'Chờ duyệt',
                 1 => 'Công khai',
                 'forceDelete' => 'Xóa vĩnh viễn'
             ];
-            $pages = Page::onlyTrashed()->paginate(3);
+            $pages = Page::where('name',  'LIKE', "%{$keyword}%")->onlyTrashed()->paginate(3);
+        } else if ($request->status == 'waiting') {
+            $status = 'waiting';
+            $action = [
+                1 => 'Công khai',
+                'delete' => 'Xóa tạm thời'
+            ];
+
+            $pages = Page::where(
+                [
+                    ['status', '0'],
+                    ['name', 'LIKE', "%{$keyword}%"]
+                ]
+            )->paginate(3);
+        } else {
+            $status = 'public';
+            $action = [
+                0 => 'Chờ duyệt',
+                'delete' => 'Xóa tạm thời'
+            ];
+            $pages = Page::where(
+                [
+                    ['status', '1'],
+                    ['name', 'LIKE', "%{$keyword}%"]
+                ]
+            )->paginate(3);
         }
 
         if ($pages->total() == 0) {
             $pages = [];
         }
-
 
         $cnt_page_public = Page::where('status', '1')->count();
         $cnt_page_waiting = Page::where('status', '0')->count();
@@ -89,15 +106,16 @@ class PageController extends Controller
 
         $cnt_page = [$cnt_page_public, $cnt_page_waiting, $cnt_page_delete];
 
-
-        // return $pages;
         return view('admin.page.list', compact('pages', 'action', 'status', 'cnt_page'));
     }
+
+
     public function delete($id)
     {
         Page::where('id', $id)->delete();
         return redirect('page/list')->with('status', 'Đã xóa tạm thời thành công!');
     }
+
 
     public function update(Request $request, $id)
     {
@@ -117,8 +135,6 @@ class PageController extends Controller
             ]
         );
 
-        // return $request;
-
         Page::where('id', $id)->update(
             [
                 'name' => $request->input('name'),
@@ -130,10 +146,83 @@ class PageController extends Controller
         return redirect('page/list')->with('status', 'Cập nhật thành công!');
     }
 
+
     public function edit($id)
     {
         $page = Page::find($id);
-        // return $page;
         return view('admin.page.edit', compact('page'));
+    }
+
+
+    public function action(Request $request)
+    {
+        $action = $request->action;
+        $status = $request->status;
+        $check_list = $request->check_list;
+
+        if ($status == 'public') {
+            if ($action == null) {
+                return redirect('page/list')->with('status_error', 'Bạn cần chọn thao tác để thực hiện!');
+            } else if (empty($check_list)) {
+                return redirect('page/list')->with('status_error', 'Bạn cần tick để thực hiện!');
+            } else {
+                if ($action == 'delete') {
+                    Page::destroy($check_list);
+                    return redirect('page/list')->with('status', 'Đã xóa tạm thời thành công!');
+                } else {
+                    foreach ($check_list as $id) {
+                        Page::where('id', $id)
+                            ->update(['status' => '0']);
+                    }
+                    return redirect('page/list')->with('status', 'Đã chuyển sang chờ duyệt thành công!');
+                }
+            }
+        } else if ($status == 'waiting') {
+            if ($action == null) {
+                return redirect('page/list?status=waiting')->with('status_error', 'Bạn cần chọn thao tác để thực hiện!');
+            } else if (empty($check_list)) {
+                return redirect('page/list?status=waiting')->with('status_error', 'Bạn cần tick để thực hiện!');
+            } else {
+                if ($action == 'delete') {
+                    Page::destroy($check_list);
+                    return redirect('page/list?status=waiting')->with('status', 'Đã xóa tạm thời thành công!');
+                } else {
+                    foreach ($check_list as $id) {
+                        Page::where('id', $id)
+                            ->update(['status' => '1']);
+                    }
+                    return redirect('page/list?status=waiting')->with('status', 'Đã chuyển sang chờ duyệt thành công!');
+                }
+            }
+        } else {
+            if ($action == null) {
+                return redirect('page/list?status=disable')->with('status_error', 'Bạn cần chọn thao tác để thực hiện!');
+            } else if (empty($check_list)) {
+                return redirect('page/list?status=disable')->with('status_error', 'Bạn cần tick để thực hiện!');
+            } else {
+                if ($action == 'forceDelete') {
+                    Page::onlyTrashed()->forceDelete();
+                    return redirect('page/list?status=disable')->with('status', 'Đã xóa vĩnh viễn thành công!');
+                } else if ($action == '0') {
+                    foreach ($check_list as $id) {
+                        Page::where('id', $id)
+                            ->update(['status' => '0']);
+                    }
+                    Page::onlyTrashed()
+                        ->whereIn('id', $check_list)
+                        ->restore();
+                    return redirect('page/list?status=disable')->with('status', 'Đã chuyển sang chờ duyệt thành công!');
+                } else {
+                    Page::onlyTrashed()
+                        ->whereIn('id', $check_list)
+                        ->restore();
+                    foreach ($check_list as $id) {
+                        Page::where('id', $id)
+                            ->update(['status' => '1']);
+                    }
+                    return redirect('page/list?status=disable')->with('status', 'Đã chuyển sang công khai thành công!');
+                }
+            }
+        }
     }
 }

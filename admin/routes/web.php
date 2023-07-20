@@ -37,7 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('page/delete/{id}', 'PageController@delete')->name('page.delete');
     Route::get('page/edit/{id}', 'PageController@edit')->name('page.edit');
     Route::post('page/store', 'PageController@store')->name('page.store');
-    Route::post('page/update/{id}', 'PageController@update')->name('page.update');
+    Route::post('page/action/{status}', 'PageController@action')->name('page.action');
+    Route::post('page/updte/{id}', 'PageController@update')->name('page.update');
 });
 
 
