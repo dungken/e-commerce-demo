@@ -54,6 +54,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('post/edit/{id}', 'PostController@edit')->name('post.edit');
     Route::post('post/action/{status}', 'PostController@action')->name('post.action');
     Route::post('post/update/{id}', 'PostController@update')->name('post.update');
+    //==============PRODUCT===============
+    Route::get('product/cat/add', 'ProductController@addCat');
+    Route::post('product/cat/addStore/', 'ProductController@catStore')->name('product.cat.addStore');
+    Route::get('product/cat/list', 'ProductController@listCat');
+    Route::get('product/cat/delete/{catId}', 'ProductController@deleteCat')->name('product.cat.delete');
+    Route::get('product/cat/edit/{catId}', 'ProductController@editCat')->name('product.cat.edit');
+    Route::post('product/cat/update/{catId}', 'ProductController@updateCat')->name('product.cat.update');
+
+    Route::get('product/add', 'ProductController@add');
+    Route::post('product/store', 'ProductController@store')->name('product.addStore');
+    Route::get('product/list', 'ProductController@list');
+    Route::get('product/delete/{id}', 'ProductController@delete')->name('product.delete');
+    Route::get('product/edit/{id}', 'ProductController@edit')->name('product.edit');
+    Route::post('product/action/{status}', 'ProductController@action')->name('product.action');
+    Route::post('product/update/{id}', 'ProductController@update')->name('product.update');
 });
 
 

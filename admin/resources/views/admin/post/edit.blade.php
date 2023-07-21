@@ -71,7 +71,7 @@
                             </label>
                         </div>
                     </div>
-                    <button type="submit" name="btn_update" value="Thêm bài viết" class="btn btn-primary">Thêm mới</button>
+                    <button type="submit" name="btn_update" value="Thêm bài viết" class="btn btn-primary">Lưu thay đổi</button>
                 </form>
             </div>
         </div>

@@ -149,7 +149,7 @@
                         <ul class="sub-menu">
                             <li><a href="{{ url('product/add') }}">Thêm mới</a></li>
                             <li><a href="{{ url('product/list') }}">Danh sách</a></li>
-                            <li><a href="{{ url('product/cat/list') }}">Danh mục</a></li>
+                            <li><a href="{{ url('product/cat/add') }}">Danh mục</a></li>
                         </ul>
                     </li>
                     <li class="nav-link {{ $mod_active == 'order' ? 'active' : '' }}">
