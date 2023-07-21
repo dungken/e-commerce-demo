@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     //
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            session(['mod_active' => 'order']);
+            return $next($request);
+        });
+    }
+
     public function list(Request $request)
     {
 
