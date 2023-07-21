@@ -23,6 +23,7 @@ Auth::routes(['verify' => true]);
 Route::middleware(['auth'])->group(function () {
     //==============DASHBOARD===============
     Route::get('dashboard', 'DashboardController@show')->middleware('verified');
+    Route::get('dashboard/delete/{id}', 'DashboardController@delete')->name('dashboard.delete');
     //==============USER===============
     Route::get('user/list', 'UserController@list')->name('user.list');
     Route::get('user/add', 'UserController@add');
