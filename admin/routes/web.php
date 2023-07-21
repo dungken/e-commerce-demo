@@ -69,6 +69,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('product/edit/{id}', 'ProductController@edit')->name('product.edit');
     Route::post('product/action/{status}', 'ProductController@action')->name('product.action');
     Route::post('product/update/{id}', 'ProductController@update')->name('product.update');
+    //==============ORDER===============
+    Route::get('order/list', 'OrderController@list');
+    Route::post('order/action/{status}', 'OrderController@action')->name('order.action');
+    Route::get('order/delete/{id}', 'OrderController@delete')->name('order.delete');
 });
 
 
