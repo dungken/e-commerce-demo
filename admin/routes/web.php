@@ -39,6 +39,21 @@ Route::middleware(['auth'])->group(function () {
     Route::post('page/store', 'PageController@store')->name('page.store');
     Route::post('page/action/{status}', 'PageController@action')->name('page.action');
     Route::post('page/updte/{id}', 'PageController@update')->name('page.update');
+    //==============POST===============
+    Route::get('post/cat/add', 'PostController@addCat');
+    Route::post('post/cat/addStore/', 'PostController@catStore')->name('post.cat.addStore');
+    Route::get('post/cat/list', 'PostController@listCat');
+    Route::get('post/cat/delete/{catId}', 'PostController@deleteCat')->name('post.cat.delete');
+    Route::get('post/cat/edit/{catId}', 'PostController@editCat')->name('post.cat.edit');
+    Route::post('post/cat/update/{catId}', 'PostController@updateCat')->name('post.cat.update');
+
+    Route::get('post/add', 'PostController@add');
+    Route::post('post/store', 'PostController@store')->name('post.addStore');
+    Route::get('post/list', 'PostController@list');
+    Route::get('post/delete/{id}', 'PostController@delete')->name('post.delete');
+    Route::get('post/edit/{id}', 'PostController@edit')->name('post.edit');
+    Route::post('post/action/{status}', 'PostController@action')->name('post.action');
+    Route::post('post/update/{id}', 'PostController@update')->name('post.update');
 });
 
 

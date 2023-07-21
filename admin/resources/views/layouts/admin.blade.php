@@ -135,7 +135,7 @@
                         <ul class="sub-menu">
                             <li><a href="{{ url('post/add') }}">Thêm mới</a></li>
                             <li><a href="{{ url('post/list') }}">Danh sách</a></li>
-                            <li><a href="{{ url('post/cat/list') }}">Danh mục</a></li>
+                            <li><a href="{{ url('post/cat/add') }}">Danh mục</a></li>
                         </ul>
                     </li>
                     <li class="nav-link {{ $mod_active == 'product' ? 'active' : '' }}">

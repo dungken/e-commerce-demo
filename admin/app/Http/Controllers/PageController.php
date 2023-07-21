@@ -64,8 +64,7 @@ class PageController extends Controller
         if ($request->status == 'disable') {
             $status = 'disable';
             $action = [
-                0 => 'Chờ duyệt',
-                1 => 'Công khai',
+                'restore' => 'Khôi phục',
                 'forceDelete' => 'Xóa vĩnh viễn'
             ];
             $pages = Page::where('name',  'LIKE', "%{$keyword}%")->onlyTrashed()->paginate(3);
@@ -203,24 +202,9 @@ class PageController extends Controller
                 if ($action == 'forceDelete') {
                     Page::onlyTrashed()->forceDelete();
                     return redirect('page/list?status=disable')->with('status', 'Đã xóa vĩnh viễn thành công!');
-                } else if ($action == '0') {
-                    foreach ($check_list as $id) {
-                        Page::where('id', $id)
-                            ->update(['status' => '0']);
-                    }
-                    Page::onlyTrashed()
-                        ->whereIn('id', $check_list)
-                        ->restore();
-                    return redirect('page/list?status=disable')->with('status', 'Đã chuyển sang chờ duyệt thành công!');
                 } else {
-                    Page::onlyTrashed()
-                        ->whereIn('id', $check_list)
-                        ->restore();
-                    foreach ($check_list as $id) {
-                        Page::where('id', $id)
-                            ->update(['status' => '1']);
-                    }
-                    return redirect('page/list?status=disable')->with('status', 'Đã chuyển sang công khai thành công!');
+                    Page::onlyTrashed()->restore();
+                    return redirect('page/list?status=disable')->with('status', 'Đã khôi phục thành công!');
                 }
             }
         }
