@@ -9,7 +9,6 @@
                 Thêm người dùng
             </div>
             <div class="card-body">
-
                 <form action="{{ route('user.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
@@ -46,16 +45,6 @@
                         <input class="form-control" type="password" name="password_confirmation" id="password-confimred">
                     </div>
 
-                    <div class="form-group">
-                        <label for="">Nhóm quyền</label>
-                        <select class="form-control" id="" name="role">
-                            <option>Chọn quyền</option>            
-                            <option>Danh mục 1</option>
-                            <option>Danh mục 2</option>
-                            <option>Danh mục 3</option>
-                            <option>Danh mục 4</option>
-                        </select>
-                    </div>
                     <button type="submit" value="Thêm thành viên" name="btn_add" class="btn btn-primary">Thêm mới</button>
                 </form>
             </div>

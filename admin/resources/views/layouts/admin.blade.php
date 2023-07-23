@@ -101,98 +101,141 @@
         <div id="page-body" class="d-flex">
             <div id="sidebar" class="bg-white">
                 <ul id="sidebar-menu">
-                    <li class="nav-link {{ $mod_active == 'dashboard' ? 'active' : '' }}">
-                        <a href="{{ url('dashboard') }}">
-                            <div class="nav-link-icon d-inline-flex">
-                                <i class="far fa-folder"></i>
-                            </div>
-                            Dashboard
-                        </a>
-                        <i class="arrow fas fa-angle-right"></i>
-                    </li>
-                    <li class="nav-link {{ $mod_active == 'page' ? 'active' : '' }}">
-                        <a href="{{ url('page/list') }}">
-                            <div class="nav-link-icon d-inline-flex">
-                                <i class="far fa-folder"></i>
-                            </div>
-                            Trang
-                        </a>
-                        <i class="arrow fas fa-angle-right"></i>
+                    @canany(['dashboard.view', 'dashboard.delete'])
+                        <li class="nav-link {{ $mod_active == 'dashboard' ? 'active' : '' }}">
+                            <a href="{{ url('dashboard') }}">
+                                <div class="nav-link-icon d-inline-flex">
+                                    <i class="far fa-folder"></i>
+                                </div>
+                                Dashboard
+                            </a>
+                            <i class="arrow fas fa-angle-right"></i>
+                        </li>
+                    @endcanany
+                    @canany(['page.view', 'page.delete', 'page.edit', 'page.add'])
+                        <li class="nav-link {{ $mod_active == 'page' ? 'active' : '' }}">
+                            <a href="{{ url('page/list') }}">
+                                <div class="nav-link-icon d-inline-flex">
+                                    <i class="far fa-folder"></i>
+                                </div>
+                                Trang
+                            </a>
+                            <i class="arrow fas fa-angle-right"></i>
+                            <ul class="sub-menu">
+                                @can('page.add')
+                                    <li><a href="{{ url('page/add') }}">Thêm mới</a></li>
+                                @endcan
+                                @can('page.view')
+                                    <li><a href="{{ url('page/list') }}">Danh sách</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcanany
+                    @canany(['post.view', 'post.delete', 'post.edit', 'post.add', 'post.cat.view', 'post.cat.delete',
+                        'post.cat.edit', 'post.cat.add'])
+                        <li class="nav-link {{ $mod_active == 'post' ? 'active' : '' }}">
+                            <a href="{{ url('post/list') }}">
+                                <div class="nav-link-icon d-inline-flex">
+                                    <i class="far fa-folder"></i>
+                                </div>
+                                Bài viết
+                            </a>
+                            <i class="arrow fas fa-angle-right"></i>
+                            <ul class="sub-menu">
+                                @can('post.add')
+                                    <li><a href="{{ url('post/add') }}">Thêm mới</a></li>
+                                @endcan
+                                @can('post.view')
+                                    <li><a href="{{ url('post/list') }}">Danh sách</a></li>
+                                @endcan
+                                @can('post.cat.add')
+                                    <li><a href="{{ url('post/cat/add') }}">Danh mục</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcanany
+                    @canany(['product.view', 'product.delete', 'product.edit', 'product.add', 'product.cat.view',
+                        'product.cat.delete', 'product.cat.edit', 'product.cat.add'])
+                        <li class="nav-link {{ $mod_active == 'product' ? 'active' : '' }}">
+                            <a href="{{ url('product/list') }}">
+                                <div class="nav-link-icon d-inline-flex">
+                                    <i class="far fa-folder"></i>
+                                </div>
+                                Sản phẩm
+                            </a>
+                            <i class="arrow fas fa-angle-down"></i>
+                            <ul class="sub-menu">
+                                @can('product.add')
+                                    <li><a href="{{ url('product/add') }}">Thêm mới</a></li>
+                                @endcan
+                                @can('product.view')
+                                    <li><a href="{{ url('product/list') }}">Danh sách</a></li>
+                                @endcan
+                                @can('product.cat.add')
+                                    <li><a href="{{ url('product/cat/add') }}">Danh mục</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcanany
+                    @canany(['order.view', 'order.delete'])
+                        <li class="nav-link {{ $mod_active == 'order' ? 'active' : '' }}">
+                            <a href="{{ url('order/list') }}">
+                                <div class="nav-link-icon d-inline-flex">
+                                    <i class="far fa-folder"></i>
+                                </div>
+                                Bán hàng
+                            </a>
+                            <i class="arrow fas fa-angle-right"></i>
+                            <ul class="sub-menu">
+                                @can('order.view')
+                                    <li><a href="{{ url('order/list') }}">Đơn hàng</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcanany
+                    @canany(['user.view', 'user.delete', 'user.edit', 'user.add'])
+                        <li class="nav-link {{ $mod_active == 'user' ? 'active' : '' }}">
+                            <a href="{{ url('user/list') }}">
+                                <div class="nav-link-icon d-inline-flex">
+                                    <i class="far fa-folder"></i>
+                                </div>
+                                Users
+                            </a>
+                            <i class="arrow fas fa-angle-right"></i>
 
-                        <ul class="sub-menu">
-                            <li><a href="{{ url('page/add') }}">Thêm mới</a></li>
-                            <li><a href="{{ url('page/list') }}">Danh sách</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-link {{ $mod_active == 'post' ? 'active' : '' }}">
-                        <a href="{{ url('post/list') }}">
-                            <div class="nav-link-icon d-inline-flex">
-                                <i class="far fa-folder"></i>
-                            </div>
-                            Bài viết
-                        </a>
-                        <i class="arrow fas fa-angle-right"></i>
-                        <ul class="sub-menu">
-                            <li><a href="{{ url('post/add') }}">Thêm mới</a></li>
-                            <li><a href="{{ url('post/list') }}">Danh sách</a></li>
-                            <li><a href="{{ url('post/cat/add') }}">Danh mục</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-link {{ $mod_active == 'product' ? 'active' : '' }}">
-                        <a href="{{ url('product/list') }}">
-                            <div class="nav-link-icon d-inline-flex">
-                                <i class="far fa-folder"></i>
-                            </div>
-                            Sản phẩm
-                        </a>
-                        <i class="arrow fas fa-angle-down"></i>
-                        <ul class="sub-menu">
-                            <li><a href="{{ url('product/add') }}">Thêm mới</a></li>
-                            <li><a href="{{ url('product/list') }}">Danh sách</a></li>
-                            <li><a href="{{ url('product/cat/add') }}">Danh mục</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-link {{ $mod_active == 'order' ? 'active' : '' }}">
-                        <a href="{{ url('order/list') }}">
-                            <div class="nav-link-icon d-inline-flex">
-                                <i class="far fa-folder"></i>
-                            </div>
-                            Bán hàng
-                        </a>
-                        <i class="arrow fas fa-angle-right"></i>
-                        <ul class="sub-menu">
-                            <li><a href="{{ url('order/list') }}">Đơn hàng</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-link {{ $mod_active == 'user' ? 'active' : '' }}">
-                        <a href="{{ url('user/list') }}">
-                            <div class="nav-link-icon d-inline-flex">
-                                <i class="far fa-folder"></i>
-                            </div>
-                            Users
-                        </a>
-                        <i class="arrow fas fa-angle-right"></i>
-
-                        <ul class="sub-menu">
-                            <li><a href="{{ url('user/add') }}">Thêm mới</a></li>
-                            <li><a href="{{ url('user/list') }}">Danh sách</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-link {{ $mod_active == 'role' ? 'active' : '' }}">
-                        <a href="{{ url('role/list') }}">
-                            <div class="nav-link-icon d-inline-flex">
-                                <i class="far fa-folder"></i>
-                            </div>
-                            Phân quyền
-                        </a>
-                        <i class="arrow fas fa-angle-right"></i>
-                        <ul class="sub-menu">
-                            <li><a href="?view=permission">Quyền</a></li>
-                            <li><a href="?view=add-role">Thêm vai trò</a></li>
-                            <li><a href="?view=list-role">Danh sách vai trò</a></li>
-                        </ul>
-                    </li>
-
+                            <ul class="sub-menu">
+                                @can('user.add')
+                                    <li><a href="{{ url('user/add') }}">Thêm mới</a></li>
+                                @endcan
+                                @can('user.view')
+                                    <li><a href="{{ url('user/list') }}">Danh sách</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcanany
+                    @canany(['role.view', 'role.add', 'role.delete', 'role.edit', 'permission.add', 'permission.edit',
+                        'permission.delete'])
+                        <li class="nav-link {{ $mod_active == 'role' ? 'active' : '' }}">
+                            <a href="{{ url('role/list') }}">
+                                <div class="nav-link-icon d-inline-flex">
+                                    <i class="far fa-folder"></i>
+                                </div>
+                                Phân quyền
+                            </a>
+                            <i class="arrow fas fa-angle-right"></i>
+                            <ul class="sub-menu">
+                                @can('permission.add')
+                                    <li><a href="{{ url('role/permission') }}">Quyền</a></li>
+                                @endcan
+                                @can('role.add')
+                                    <li><a href="{{ url('role/add') }}">Thêm vai trò</a></li>
+                                @endcan
+                                @can('role.view')
+                                    <li><a href="{{ url('role/list') }}">Danh sách vai trò</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcanany
                 </ul>
             </div>
             <div id="wp-content">

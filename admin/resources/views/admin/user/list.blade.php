@@ -46,10 +46,9 @@
                                 <th>
                                     <input type="checkbox" name="checkall">
                                 </th>
-                                <th scope="col">#</th>
                                 <th scope="col">Họ tên</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Quyền</th>
+                                <th scope="col">Vai trò</th>
                                 <th scope="col">Ngày tạo</th>
                                 @if ($status == 'active')
                                     <th scope="col">Tác vụ</th>
@@ -58,21 +57,18 @@
                         </thead>
                         <tbody>
                             @if ($users)
-                                @php
-                                    $t = 0;
-                                @endphp
                                 @foreach ($users as $user)
-                                    @php
-                                        $t++;
-                                    @endphp
                                     <tr>
                                         <td>
                                             <input type="checkbox" value="{{ $user->id }}" name="check_list[]">
                                         </td>
-                                        <th scope="row">{{ $t }}</th>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>Admintrator</td>
+                                        <td>
+                                            @foreach ($user->roles as $role)
+                                                <a href="{{route('role.list')}}" class="badge badge-success">{{$role->name}}</a>
+                                            @endforeach
+                                        </td>
                                         <td>{{ $user->created_at }}</td>
                                         @if ($status == 'active')
                                             <td>

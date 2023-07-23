@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class UserController extends Controller
         });
     }
 
-    
+
     public function list(Request $request)
     {
         if ($request->status) {
@@ -63,6 +64,7 @@ class UserController extends Controller
             $users = [];
         }
 
+
         return view('admin.user.list', compact('users', 'keyword', 'count_user', 'action', 'status'));
     }
 
@@ -89,7 +91,7 @@ class UserController extends Controller
             ]
         );
 
-        User::create(
+        $user = User::create(
             [
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
@@ -103,7 +105,10 @@ class UserController extends Controller
 
     public function add()
     {
-        return view('admin.user.add');
+        $roles = Role::all();
+        // return $roles;
+
+        return view('admin.user.add', compact('roles'));
     }
 
 
@@ -114,38 +119,37 @@ class UserController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::find($id);
-        return view('admin.user.edit', compact('user'));
+        $roles = Role::all();
+
+        return view('admin.user.edit', compact('user', 'roles'));
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         $request->validate(
             [
                 'name' => ['required', 'string', 'max:255'],
-                'password' => ['required', 'string', 'min:8', 'confirmed'],
             ],
             [
                 'required' => ':attribute không được để trống!',
                 'max' => ':attribute có tối đa :max kí tự!',
-                'min' => ':attribute có tối thiểu :min kí tự!',
-                'confirmed' => 'Xác nhận mật khẩu không thành công',
             ],
             [
                 'name' => 'Tên người dùng',
-                'password' => 'Mật khẩu'
             ]
         );
 
-        User::where('id', $id)->update(
+
+        $user->update(
             [
                 'name' => $request->input('name'),
-                'password' => Hash::make($request->input('password')),
             ]
         );
+
+        $user->roles()->sync($request->input('role_id', []));
 
         return redirect('user/list')->with('status', 'Đã cập nhật thành công');
     }
