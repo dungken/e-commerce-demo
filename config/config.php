@@ -11,7 +11,7 @@
  * 
  */
 
-$config['base_url'] = "http://localhost/Project/vandunghastore.com/";
+$config['base_url'] = "https://vandung.devcv.online/";
 
 
 $config['default_module'] = 'home';
