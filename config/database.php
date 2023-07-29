@@ -19,7 +19,7 @@ $db = array(
     'hostname' => 'localhost',
     'username' => 'root',
     'password' => '',
-    'database' => 'ismart.com',
+    'database' => 'laravelpro_vdhstore.com',
 );
 
 

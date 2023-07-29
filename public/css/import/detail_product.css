@@ -56,13 +56,14 @@
 }
 #num-order-wp{ margin-bottom: 25px;}
 #num-order{
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 31px;
     line-height: 30px;
     text-align: center;
-    border: 1px solid #b1b1b1;
+    border: 1px solid #d0c0c0;
     font-family: "Roboto Regular";
     color: #545454;
+    border-radius: 3px;
 }
 #minus, #plus{
     display: inline-block;
@@ -92,6 +93,7 @@
     color: #fff;
     border-radius: 5px;
     text-transform: uppercase;
+    border: none;
 }
 #detail-product-wp .add-cart:hover{ background: #006d00;}
 #post-product-wp .section-title, #same-category-wp .section-title{
@@ -100,3 +102,5 @@
     text-transform: uppercase;
 }
 #post-product-wp .section-detail p{ padding-bottom: 15px; color: #666; text-align: justify;}
+
+

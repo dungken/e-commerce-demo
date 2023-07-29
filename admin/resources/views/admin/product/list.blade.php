@@ -2,6 +2,9 @@
 @section('title', 'List Product')
 @section('content')
     <div id="content" class="container-fluid">
+        @php
+            // dd($cats);
+        @endphp
         <div class="card">
             @if (session('status'))
                 <div class="alert alert-success">{{ session('status') }}</div>
@@ -65,17 +68,23 @@
                                 @foreach ($products as $product)
                                     @php
                                         $cnt++;
+                                        // dd($product);
                                     @endphp
                                     <tr>
                                         <td>
                                             <input type="checkbox" name="check_list[]" value="{{ $product->id }}">
                                         </td>
                                         <td scope="row">{{ $cnt }}</td>
-                                        <td><img style="max-width: 150px; height: auto;"
+                                        <td><img style="width: 150px; height: 150px;"
                                                 src="{{ url($product->thumbnail) }}" alt=""></td>
                                         <td>{{ Str::limit($product->name, 50, '...') }}</td>
                                         <td>{{ number_format($product->price, 0, ',', '.') }}đ</td>
-                                        <td>{{ $cats[$product->cat_id - 1]['name'] }}</td>
+                                        @foreach ($cats as $cat)
+                                            @if ($cat->id == $product->cat_id)
+                                                <td>{{ $cat->name }}</td>
+                                            @endif
+                                        @endforeach
+
                                         @if ($product->status == 'soldOut')
                                             <td><span class="badge badge-dark">Hết hàng</span></td>
                                         @else

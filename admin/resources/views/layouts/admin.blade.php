@@ -61,7 +61,11 @@
 <body>
     <div id="warpper" class="nav-fixed">
         <nav class="topnav shadow navbar-light bg-white d-flex">
-            <div class="navbar-brand"><a href="{{ url('dashboard') }}">VDHSTORE ADMIN</a></div>
+            <div class="navbar-brand">
+                <a href="{{ url('dashboard') }}">
+                    VDHSTORE ADMIN
+                </a>
+            </div>
             <div class="nav-right ">
                 <div class="btn-group mr-auto">
                     <button type="button" class="btn dropdown" data-toggle="dropdown" aria-haspopup="true"
@@ -177,7 +181,7 @@
                             </ul>
                         </li>
                     @endcanany
-                    @canany(['order.view', 'order.delete'])
+                    @canany(['order.view', 'order.delete', 'order.detail', 'order.update'])
                         <li class="nav-link {{ $mod_active == 'order' ? 'active' : '' }}">
                             <a href="{{ url('order/list') }}">
                                 <div class="nav-link-icon d-inline-flex">
@@ -193,6 +197,32 @@
                             </ul>
                         </li>
                     @endcanany
+                    <li class="nav-link {{ $mod_active == 'ads' ? 'active' : '' }}">
+                        <a href="{{ url('ads/list') }}">
+                            <div class="nav-link-icon d-inline-flex">
+                                <i class="far fa-folder"></i>
+                            </div>
+                            Quảng cáo
+                        </a>
+                        <i class="arrow fas fa-angle-right"></i>
+                        <ul class="sub-menu">
+                            <li><a href="{{ url('ads/list') }}">Danh sách</a></li>
+                            <li><a href="{{ url('ads/add') }}">Thêm mới</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-link {{ $mod_active == 'slide' ? 'active' : '' }}">
+                        <a href="{{ url('slide/list') }}">
+                            <div class="nav-link-icon d-inline-flex">
+                                <i class="far fa-folder"></i>
+                            </div>
+                            Slide
+                        </a>
+                        <i class="arrow fas fa-angle-right"></i>
+                        <ul class="sub-menu">
+                            <li><a href="{{ url('slide/list') }}">Danh sách</a></li>
+                            <li><a href="{{ url('slide/add') }}">Thêm mới</a></li>
+                        </ul>
+                    </li>
                     @canany(['user.view', 'user.delete', 'user.edit', 'user.add'])
                         <li class="nav-link {{ $mod_active == 'user' ? 'active' : '' }}">
                             <a href="{{ url('user/list') }}">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
 use App\Order;
 use Illuminate\Http\Request;
 
@@ -19,23 +20,23 @@ class DashboardController extends Controller
 
     public function show()
     {
-        $orders = Order::orderBy('id', 'desc')->paginate(4);
-        $cnt_order_completed = Order::where('status', 'completed')->count();
-        $cnt_order_processing = Order::where('status', 'processing')->count();
+        $clients = Client::orderBy('id', 'desc')->paginate(8);
+
+        $cnt_order_paid = Client::where('status', 'paid')->count();
+
+        $cnt_order_pending = Client::where('status', 'pending')->count();
+
+        $cnt_order_cancel = Client::onlyTrashed()->count();
+
+
         $cnt_total_revenue = 0;
-        foreach (Order::where('status', 'completed')->get() as $e) {
-            $cnt_total_revenue += $e['qty'] * $e['price'];
+
+        foreach (Client::where('status', 'paid')->get() as $e) {
+            $cnt_total_revenue += $e['total'];
         }
-        $cnt_total_trash = Order::onlyTrashed()->count();
 
-        $cnt = [$cnt_order_completed, $cnt_order_processing, $cnt_total_revenue, $cnt_total_trash];
+        $cnt = [$cnt_order_paid, $cnt_order_pending, $cnt_total_revenue, $cnt_order_cancel];
 
-        return view('admin.dashboard', compact('orders', 'cnt'));
-    }
-
-    public function delete($id)
-    {
-        Order::destroy($id);
-        return redirect('dashboard')->with('status', 'Đã xóa thành công');
+        return view('admin.dashboard', compact('clients', 'cnt'));
     }
 }

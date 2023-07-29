@@ -53,9 +53,9 @@ class UserController extends Controller
         }
 
         if ($request->status == 'disable') {
-            $users = User::onlyTrashed()->where('name', 'LIKE', "%{$keyword}%")->paginate(6);
+            $users = User::onlyTrashed()->where('name', 'LIKE', "%{$keyword}%")->paginate(8);
         } else {
-            $users = User::where('name', 'LIKE', "%{$keyword}%")->paginate(6);
+            $users = User::where('name', 'LIKE', "%{$keyword}%")->paginate(8);
         }
 
         if ($users->total()) {

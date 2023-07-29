@@ -5,8 +5,8 @@
 #info-company .title{
     font-size: 28px;
     font-family: 'Roboto Medium';
-    font-weight: normal;
-    color: #da1818;
+    font-weight: bold;
+    color: #c3254b;
     text-transform: uppercase;
     margin-bottom: 25px;
 }
@@ -64,7 +64,7 @@
 #form-reg #sm-reg{
     display: block;
     width: 100%;
-    background: #da1818;
+    background: #c12449;
     border: none;
     outline: none;
     padding: 10px 0px;
@@ -73,7 +73,7 @@
     font-family: 'Roboto Medium';
     line-height: normal;
 }
-#form-reg #sm-reg:hover{ background: #c10f0f;}
+#form-reg #sm-reg:hover{ background: #d62a52;}
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: #999;
     font-family: 'Roboto Light';
@@ -95,7 +95,7 @@
     font-size: 13px;
 }
 #foot-bot{
-    background: #da1818;
+    background: #c12449;
     text-align: center;
     padding: 10px 0px;
 }

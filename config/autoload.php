@@ -1,5 +1,5 @@
 <?php
-defined('APPPATH') OR exit('Không được quyền truy cập phần này');
+defined('APPPATH') or exit('Không được quyền truy cập phần này');
 
 /*
 | -------------------------------------------------------------------
@@ -21,7 +21,7 @@ defined('APPPATH') OR exit('Không được quyền truy cập phần này');
  */
 
 
-$autoload['lib'] = array('validation', 'users');
+$autoload['lib'] = array('validation', 'users', 'cart', 'product', 'slide-ads');
 
 /*
  * ------------------------------------------------------------------
@@ -32,12 +32,4 @@ $autoload['lib'] = array('validation', 'users');
  */
 
 
-$autoload['helper'] = array('data', 'url', 'database');
-
-
-
-
-
-
-
-
+$autoload['helper'] = array('data', 'url', 'render', 'format', 'pagination', 'resizeImages', 'string');

@@ -1,0 +1,27 @@
+RewriteEngine On
+
+# TRANG
+RewriteRule ^([A-Za-z0-9_-]+)-([0-9]+).html$ index.php?mod=page&id=$2
+
+
+# BÀI VIẾT
+RewriteRule ^bai-viet/$ index.php?mod=post
+RewriteRule ^bai-viet/trang-([0-9]+).htm$ index.php?mod=post&page=$1
+RewriteRule ^bai-viet/([A-Za-z0-9_-]+)-([0-9]+).html$ index.php?mod=post&action=detail&id=$2
+
+
+# SẢN PHẨM
+RewriteRule ^san-pham/([A-Za-z0-9_-]+)-([0-9]+)/$ index.php?mod=product&cat_id=$2
+RewriteRule ^san-pham/tim-kiem/$ index.php?mod=product&action=search
+RewriteRule ^san-pham/([A-Za-z0-9_-]+)-([0-9]+)/trang-([0-9]+).htm$ index.php?mod=product&cat_id=$2&page=$3
+RewriteRule ^san-pham/([A-Za-z0-9_-]+)-([0-9]+)/([A-Za-z0-9_-]+)-([0-9]+)$ index.php?mod=product&action=detail&cat_id=$2&id=$4
+
+# GIỎ HÀNG
+RewriteRule ^gio-hang/$ index.php?mod=cart
+RewriteRule ^gio-hang/thanh-toan/$ index.php?mod=cart&action=checkout
+RewriteRule ^gio-hang/([A-Za-z0-9_-]+)-([0-9]+)-([0-9]+)$ index.php?mod=cart&action=add&id=$2&cat_id=$3
+RewriteRule ^gio-hang/mua-ngay/([A-Za-z0-9_-]+)-([0-9]+)-([0-9]+)$ index.php?mod=cart&action=buyNow&cat_id=$2&id=$3
+
+
+
+

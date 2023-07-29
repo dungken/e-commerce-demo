@@ -1,19 +1,21 @@
 <?php
 
 // Hàm kết nối dữ liệu
-function db_connect() {
+function db_connect()
+{
     global $conn;
     $db = func_get_arg(0);
     $conn = mysqli_connect($db['hostname'], $db['username'], $db['password'], $db['database']);
     if (!$conn) {
-        die("Kết nối không thành công ".mysqli_connect_error());
+        die("Kết nối không thành công " . mysqli_connect_error());
     }
-//    mysqli_set_charset($conn, "utf8");
-    
+    //    mysqli_set_charset($conn, "utf8");
+
 }
 
 //Thực thi chuổi truy vấn
-function db_query($query_string) {
+function db_query($query_string)
+{
     global $conn;
     $result = mysqli_query($conn, $query_string);
     if (!$result) {
@@ -23,7 +25,8 @@ function db_query($query_string) {
 }
 
 // Lấy một dòng trong CSDL
-function db_fetch_row($query_string) {
+function db_fetch_row($query_string)
+{
     global $conn;
     $result = array();
     $mysqli_result = db_query($query_string);
@@ -33,7 +36,8 @@ function db_fetch_row($query_string) {
 }
 
 //Lấy một mảng trong CSDL
-function db_fetch_array($query_string) {
+function db_fetch_array($query_string)
+{
     global $conn;
     $result = array();
     $mysqli_result = db_query($query_string);
@@ -44,13 +48,15 @@ function db_fetch_array($query_string) {
     return $result;
 }
 //Lấy số bản ghi
-function db_num_rows($query_string) {
+function db_num_rows($query_string)
+{
     global $conn;
     $mysqli_result = db_query($query_string);
-	return mysqli_num_rows($mysqli_result);
+    return mysqli_num_rows($mysqli_result);
 }
 
-function db_insert($table, $data) {
+function db_insert($table, $data)
+{
     global $conn;
     $fields = "(" . implode(", ", array_keys($data)) . ")";
     $values = "";
@@ -68,7 +74,8 @@ function db_insert($table, $data) {
     return mysqli_insert_id($conn);
 }
 
-function db_update($table, $data, $where) {
+function db_update($table, $data, $where)
+{
     global $conn;
     $sql = "";
     foreach ($data as $field => $value) {
@@ -86,38 +93,58 @@ function db_update($table, $data, $where) {
     return mysqli_affected_rows($conn);
 }
 
-function db_delete($table, $where) {
+function db_delete($table, $where)
+{
     global $conn;
     $query_string = "DELETE FROM " . $table . " WHERE $where";
     db_query($query_string);
     return mysqli_affected_rows($conn);
 }
 
-function escape_string($str) {
+function escape_string($str)
+{
     global $conn;
     return mysqli_real_escape_string($conn, $str);
 }
 
 // Hiển thị lỗi SQL
 
-function db_sql_error($message, $query_string = "") {
+function db_sql_error($message, $query_string = "")
+{
     global $conn;
 
     $sqlerror = "<table width='100%' border='1' cellpadding='0' cellspacing='0'>";
-    $sqlerror.="<tr><th colspan='2'>{$message}</th></tr>";
-    $sqlerror.=($query_string != "") ? "<tr><td nowrap> Query SQL</td><td nowrap>: " . $query_string . "</td></tr>\n" : "";
-    $sqlerror.="<tr><td nowrap> Error Number</td><td nowrap>: " . mysqli_errno($conn) . " " . mysqli_error($conn) . "</td></tr>\n";
-    $sqlerror.="<tr><td nowrap> Date</td><td nowrap>: " . date("D, F j, Y H:i:s") . "</td></tr>\n";
-    $sqlerror.="<tr><td nowrap> IP</td><td>: " . getenv("REMOTE_ADDR") . "</td></tr>\n";
-    $sqlerror.="<tr><td nowrap> Browser</td><td nowrap>: " . getenv("HTTP_USER_AGENT") . "</td></tr>\n";
-    $sqlerror.="<tr><td nowrap> Script</td><td nowrap>: " . getenv("REQUEST_URI") . "</td></tr>\n";
-    $sqlerror.="<tr><td nowrap> Referer</td><td nowrap>: " . getenv("HTTP_REFERER") . "</td></tr>\n";
-    $sqlerror.="<tr><td nowrap> PHP Version </td><td>: " . PHP_VERSION . "</td></tr>\n";
-    $sqlerror.="<tr><td nowrap> OS</td><td>: " . PHP_OS . "</td></tr>\n";
-    $sqlerror.="<tr><td nowrap> Server</td><td>: " . getenv("SERVER_SOFTWARE") . "</td></tr>\n";
-    $sqlerror.="<tr><td nowrap> Server Name</td><td>: " . getenv("SERVER_NAME") . "</td></tr>\n";
-    $sqlerror.="</table>";
+    $sqlerror .= "<tr><th colspan='2'>{$message}</th></tr>";
+    $sqlerror .= ($query_string != "") ? "<tr><td nowrap> Query SQL</td><td nowrap>: " . $query_string . "</td></tr>\n" : "";
+    $sqlerror .= "<tr><td nowrap> Error Number</td><td nowrap>: " . mysqli_errno($conn) . " " . mysqli_error($conn) . "</td></tr>\n";
+    $sqlerror .= "<tr><td nowrap> Date</td><td nowrap>: " . date("D, F j, Y H:i:s") . "</td></tr>\n";
+    $sqlerror .= "<tr><td nowrap> IP</td><td>: " . getenv("REMOTE_ADDR") . "</td></tr>\n";
+    $sqlerror .= "<tr><td nowrap> Browser</td><td nowrap>: " . getenv("HTTP_USER_AGENT") . "</td></tr>\n";
+    $sqlerror .= "<tr><td nowrap> Script</td><td nowrap>: " . getenv("REQUEST_URI") . "</td></tr>\n";
+    $sqlerror .= "<tr><td nowrap> Referer</td><td nowrap>: " . getenv("HTTP_REFERER") . "</td></tr>\n";
+    $sqlerror .= "<tr><td nowrap> PHP Version </td><td>: " . PHP_VERSION . "</td></tr>\n";
+    $sqlerror .= "<tr><td nowrap> OS</td><td>: " . PHP_OS . "</td></tr>\n";
+    $sqlerror .= "<tr><td nowrap> Server</td><td>: " . getenv("SERVER_SOFTWARE") . "</td></tr>\n";
+    $sqlerror .= "<tr><td nowrap> Server Name</td><td>: " . getenv("SERVER_NAME") . "</td></tr>\n";
+    $sqlerror .= "</table>";
     $msgbox_messages = "<meta http-equiv=\"refresh\" content=\"9999\">\n<table class='smallgrey' cellspacing=1 cellpadding=0>" . $sqlerror . "</table>";
     echo $msgbox_messages;
     exit;
+}
+
+
+function get_page($where)
+{
+    if (!empty($where))
+        $where = "WHERE {$where}";
+    else
+        $where = '';
+    $sql = "SELECT * FROM `pages` {$where}";
+
+    $data = db_fetch_array($sql);
+
+    if (count($data) > 1)
+        return $data;
+    else
+        return db_fetch_row($sql);
 }

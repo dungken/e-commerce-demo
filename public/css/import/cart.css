@@ -96,3 +96,11 @@
 #action-cart-wp #buy-more{ margin-bottom: 5px;}
 #info-cart-wp table tfoot tr td{ padding: 0px;}
 .table>tbody>tr>th, .table>tbody>tr>td{ border-bottom: 1px solid #ddd;}
+
+#trash{
+    font-size: 24px;
+}
+
+.error{
+    color: red;
+}

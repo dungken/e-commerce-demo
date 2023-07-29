@@ -5,6 +5,7 @@ function base_url($url = "") {
     return $config['base_url'].$url;
 }
 
-function redirect_to($path = '?page=home'){
+function redirect_to($path = '/'){
     header("location: {$path}");
 }
+

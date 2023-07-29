@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PostCat extends Model
 {
     //
-    protected $fillable = ['name', 'parent_id', 'url', 'status'];
+    protected $fillable = ['name', 'slug', 'parent_id', 'url', 'status'];
 
     function posts()
     {

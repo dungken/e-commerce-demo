@@ -87,14 +87,17 @@ class PostController extends Controller
             ]
         );
 
-        $url_slug = Str::slug($request->input('name'));
+        $slug = Str::slug($request->input('name'));
+
+        // return $slug;
+
 
         PostCat::create(
             [
                 'name' => $request->input('name'),
                 'status' => $request->input('status'),
                 'parent_id' => $request->input('parent_id'),
-                'url' => "http://localhost/Project/vandunghastore.com/bai-viet/{$url_slug}/"
+                'slug' => $slug
             ]
         );
 
@@ -127,14 +130,17 @@ class PostController extends Controller
             ]
         );
 
-        $url_slug = Str::slug($request->input('name'));
+        // $slug = Str::slug($request->input('name'));
+
+        // $url = str_replace('admin', $slug, url());
+
 
         PostCat::where('id', $catId)->update(
             [
                 'name' => $request->input('name'),
                 'status' => $request->input('status'),
                 'parent_id' => $request->input('parent_id'),
-                'url' => "http://localhost/Project/vandunghastore.com/bai-viet/{$url_slug}/"
+                // 'url' => $url
             ]
         );
         return redirect('post/cat/add')->with('status', 'Đã cập nhật danh mục thành công!');
@@ -193,6 +199,8 @@ class PostController extends Controller
             $file->move('public/uploads', $filename);
         }
 
+        
+
         $data = [
             'title' => $request->input('title'),
             'desc' => $request->input('desc'),
@@ -200,7 +208,8 @@ class PostController extends Controller
             'thumbnail' => 'public/uploads/' . $filename,
             'cat_id' => $request->input('catId'),
             'user_id' => 1,
-            'status' => $request->input('status')
+            'status' => $request->input('status'),
+            'slug' => Str::slug($request->input('title'))
         ];
 
         Post::create($data);
@@ -233,7 +242,7 @@ class PostController extends Controller
                 'restore' => 'Khôi phục',
                 'forceDelete' => 'Xóa vĩnh viễn'
             ];
-            $posts = Post::where('title',  'LIKE', "%{$keyword}%")->onlyTrashed()->paginate(4);
+            $posts = Post::where('title',  'LIKE', "%{$keyword}%")->onlyTrashed()->paginate(8);
         } else if ($request->status == 'waiting') {
             $status = 'waiting';
             $action = [
@@ -246,7 +255,7 @@ class PostController extends Controller
                     ['status', 'waiting'],
                     ['title', 'LIKE', "%{$keyword}%"]
                 ]
-            )->paginate(4);
+            )->paginate(8);
         } else {
             $status = 'public';
             $action = [
@@ -258,7 +267,7 @@ class PostController extends Controller
                     ['status', 'public'],
                     ['title', 'LIKE', "%{$keyword}%"]
                 ]
-            )->paginate(4);
+            )->paginate(8);
         }
 
         if ($posts->total() == 0) {

@@ -1,5 +1,5 @@
 /*MAIN CONTENT*/
-#main-content-wp{ background: #f7f7f7; padding-top: 25px; padding-bottom: 75px;}
+#main-content-wp{ background: #f7f7f7; padding-top: 25px; padding-bottom: 75px; min-height: 400px;}
 .main-content{ width: 75%; margin-left: 2%; }
 .sidebar{ width: 23%;}
 #slider-wp .item img{ width: 100%!important}
@@ -177,4 +177,8 @@
     right: 5%;
     transform: translateY(-50%);
     color: #666;
+}
+
+.text-center{
+    text-align: center;
 }

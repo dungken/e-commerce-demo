@@ -73,7 +73,11 @@
                                                 alt=""></td>
                                         <td><a href="">{{ Str::limit($post->title, 50, '...') }}</a>
                                         </td>
-                                        <td>{{ $cats[$post->cat_id - 1]['name'] }}</td>
+                                        @foreach ($cats as $cat)
+                                            @if ($cat->id == $post->cat_id)
+                                                <td>{{ $cat->name }}</td>
+                                            @endif
+                                        @endforeach
                                         <td>{{ $post->created_at }}</td>
                                         <td>
                                             @if ($status == $post->status)

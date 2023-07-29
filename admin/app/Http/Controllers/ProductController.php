@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ImagesRelateProduct;
 use App\Product;
 use App\ProductCat;
 use Illuminate\Http\Request;
@@ -88,14 +89,12 @@ class ProductController extends Controller
             ]
         );
 
-        $url_slug = Str::slug($request->input('name'));
-
         ProductCat::create(
             [
                 'name' => $request->input('name'),
                 'status' => $request->input('status'),
                 'parent_id' => $request->input('parent_id'),
-                'url' => "http://localhost/Project/vandunghastore.com/san-pham/{$url_slug}/"
+                'slug' => Str::slug($request->input('name'))
             ]
         );
 
@@ -135,7 +134,7 @@ class ProductController extends Controller
                 'name' => $request->input('name'),
                 'status' => $request->input('status'),
                 'parent_id' => $request->input('parent_id'),
-                'url' => "http://localhost/Project/vandunghastore.com/bai-viet/{$url_slug}/"
+                'slug' => Str::slug($request->input('name'))
             ]
         );
         return redirect('product/cat/add')->with('status', 'Đã cập nhật danh mục thành công!');
@@ -174,9 +173,10 @@ class ProductController extends Controller
                 'name' => ['required', 'string', 'max:255', 'min:2'],
                 'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
                 'detail' => ['required', 'string'],
-                'desc' => ['required', 'string', 'max:255', 'min:10'],
+                'desc' => ['required', 'string', 'min:10'],
                 'catId' => ['required'],
-                'thumbnail' => ['required']
+                'thumbnail' => ['required'],
+                'qty_on_hand' => 'required',
             ],
             [
                 'required' => ':attribute không được để trống!',
@@ -190,7 +190,8 @@ class ProductController extends Controller
                 'detail' => 'Chi tiết sản phẩm',
                 'desc' => 'Mô tả sản phẩm',
                 'catId' => 'Danh mục',
-                'thumbnail' => 'Ảnh đại diện'
+                'thumbnail' => 'Ảnh đại diện',
+                'qty_on_hand' => 'Số lượng'
             ]
         );
 
@@ -201,6 +202,9 @@ class ProductController extends Controller
             $file->move('public/uploads', $filename);
         }
 
+        $count = Product::all()->count();
+        $count_code = $count + 1;
+
         $data = [
             'name' => $request->input('name'),
             'desc' => $request->input('desc'),
@@ -208,10 +212,28 @@ class ProductController extends Controller
             'detail' => $request->input('detail'),
             'thumbnail' => 'public/uploads/' . $filename,
             'cat_id' => $request->input('catId'),
-            'status' => $request->input('status')
+            'status' => $request->input('status'),
+            'slug' => Str::slug($request->input('name')),
+            'qty_on_hand' => $request->input('qty_on_hand'),
+            'product_code' => "VDHSTORE#" . "{$count_code}"
         ];
 
-        Product::create($data);
+        $product_id = Product::create($data);
+
+        if ($request->hasFile('imgs_relate')) {
+            $multi_file = $request->file('imgs_relate');
+            foreach ($multi_file as $file) {
+                $multi_filename = $file->getClientOriginalName();
+                $file->move('public/uploads', $multi_filename);
+                ImagesRelateProduct::create(
+                    [
+                        'thumb_id' => $product_id->id,
+                        'path' => 'public/uploads/' . $multi_filename,
+                    ]
+                );
+            }
+        }
+
 
         return redirect('product/list')->with('status', 'Đã thêm bài viết mới thành công!');
     }
@@ -226,9 +248,9 @@ class ProductController extends Controller
 
     public function list(Request $request)
     {
-        // return Product::all();
 
         $cats = ProductCat::all();
+
 
         if ($request->keyword) {
             $keyword = $request->keyword;
@@ -236,19 +258,13 @@ class ProductController extends Controller
             $keyword = " ";
         }
 
-        // return $keyword;
-
-
-        // return Product::where('status', 'soldOut')->get();
-
-
         if ($request->status == 'disable') {
             $status = 'disable';
             $action = [
                 'restore' => 'Khôi phục',
                 'forceDelete' => 'Xóa vĩnh viễn'
             ];
-            $products = Product::where('name', 'LIKE', "%{$keyword}%")->onlyTrashed()->paginate(4);
+            $products = Product::where('name', 'LIKE', "%{$keyword}%")->onlyTrashed()->paginate(8);
             // $products = Product::onlyTrashed()->paginate(4);
             // return $products;
 
@@ -264,7 +280,7 @@ class ProductController extends Controller
                     ['status', 'soldOut'],
                     ['name', 'LIKE', "%{$keyword}%"]
                 ]
-            )->paginate(4);
+            )->paginate(8);
             // dd($products);
         } else {
             $status = 'inStock';
@@ -277,7 +293,7 @@ class ProductController extends Controller
                     ['status', 'inStock'],
                     ['name', 'LIKE', "%{$keyword}%"]
                 ]
-            )->paginate(4);
+            )->paginate(8);
         }
 
         if ($products->total() == 0) {
@@ -293,7 +309,6 @@ class ProductController extends Controller
 
         $cnt_product = [$cnt_product_soldOut, $cnt_product_inStock, $cnt_product_delete];
 
-        // return view('admin.product.list');
         return view('admin.product.list', compact('products', 'action', 'status', 'cnt_product', 'cats'));
     }
 
@@ -386,9 +401,10 @@ class ProductController extends Controller
                 'name' => ['required', 'string', 'max:255', 'min:2'],
                 'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
                 'detail' => ['required', 'string'],
-                'desc' => ['required', 'string', 'max:255', 'min:10'],
+                'desc' => ['required', 'string', 'min:10'],
                 'catId' => ['required'],
-                'thumbnail' => ['required']
+                'thumbnail' => ['required'],
+                'qty_on_hand' => ['required']
             ],
             [
                 'required' => ':attribute không được để trống!',
@@ -402,7 +418,8 @@ class ProductController extends Controller
                 'detail' => 'Chi tiết sản phẩm',
                 'desc' => 'Mô tả sản phẩm',
                 'catId' => 'Danh mục',
-                'thumbnail' => 'Ảnh đại diện'
+                'thumbnail' => 'Ảnh đại diện',
+                'qty_on_hand' => 'Số lượng'
             ]
         );
 
@@ -420,10 +437,29 @@ class ProductController extends Controller
             'detail' => $request->input('detail'),
             'thumbnail' => 'public/uploads/' . $filename,
             'cat_id' => $request->input('catId'),
-            'status' => $request->input('status')
+            'status' => $request->input('status'),
+            'slug' => Str::slug($request->input('name')),
+            'qty_on_hand' => $request->input('qty_on_hand'),
         ];
 
+
         Product::where('id', $id)->update($data);
+
+        ImagesRelateProduct::where('thumb_id', $id)->delete();
+
+        if ($request->hasFile('imgs_relate')) {
+            $multi_file = $request->file('imgs_relate');
+            foreach ($multi_file as $file) {
+                $multi_filename = $file->getClientOriginalName();
+                $file->move('public/uploads', $multi_filename);
+                ImagesRelateProduct::create(
+                    [
+                        'thumb_id' => $id,
+                        'path' => 'public/uploads/' . $multi_filename,
+                    ]
+                );
+            }
+        }
 
         return redirect('product/list')->with('status', 'Đã cập nhật sản phẩm thành công!');
     }

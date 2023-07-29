@@ -71,9 +71,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('product/action/{status}', 'ProductController@action')->name('product.action')->middleware('can:product.view');
     Route::post('product/update/{id}', 'ProductController@update')->name('product.update')->middleware('can:product.edit');
     //==============ORDER===============
-    Route::get('order/list', 'OrderController@list')->middleware('can:order.view');
+    Route::get('order/list', 'OrderController@list')->name('order.list')->middleware('can:order.view');
+    Route::get('order/detail/{id}', 'OrderController@detail')->name('order.detail')->middleware('can:order.detail');
     Route::post('order/action/{status}', 'OrderController@action')->name('order.action')->middleware('can:order.view');
     Route::get('order/delete/{id}', 'OrderController@delete')->name('order.delete')->middleware('can:order.delete');
+    Route::post('order/update/{id}', 'OrderController@update')->name('order.update')->middleware('can:order.update');
     //==============ROLE===============
     Route::get('role/permission', 'RoleController@permission')->middleware('can:permission.add');
     Route::post('role/permission/permissionStore', 'RoleController@permissionStore')->name('role.permission.store')->middleware('can:permission.add');
@@ -87,6 +89,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('role/list/edit/{role}', 'RoleController@listEdit')->name('role.list.edit')->middleware('can:role.edit');
     Route::post('role/list/update/{role}', 'RoleController@listUpdate')->name('role.list.update')->middleware('can:role.edit');
     Route::get('role/list/delete/{id}', 'RoleController@listDelete')->name('role.list.delete')->middleware('can:role.delete');
+    //================ADS================
+    Route::get('ads/add', 'AdsController@add');
+    Route::post('ads/store', 'AdsController@store')->name('ads.store');
+    Route::get('ads/list', 'AdsController@list')->name('ads.list');
+    Route::get('ads/delete/{id}', 'AdsController@delete')->name('ads.delete');
+    Route::get('ads/edit/{id}', 'AdsController@edit')->name('ads.edit');
+    Route::post('ads/update/{id}', 'AdsController@update')->name('ads.update');
+    //================SLIDES================
+    Route::get('slide/add', 'SlideController@add');
+    Route::post('slide/store', 'SlideController@store')->name('slide.store');
+    Route::get('slide/list', 'SlideController@list')->name('slide.list');
+    Route::get('slide/delete/{id}', 'SlideController@delete')->name('slide.delete');
+    Route::get('slide/edit/{id}', 'SlideController@edit')->name('slide.edit');
+    Route::post('slide/update/{id}', 'SlideController@update')->name('slide.update');
 });
 
 

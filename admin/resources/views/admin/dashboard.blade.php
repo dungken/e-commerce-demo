@@ -27,7 +27,7 @@
                 <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
                     <div class="card-header">DOANH SỐ</div>
                     <div class="card-body">
-                        <h5 class="card-title">{{ number_format($cnt[2], 0, ',', '.') }} vnđ</h5>
+                        <h5 class="card-title">{{ number_format($cnt[2], 0, ',', '.') }} đ</h5>
                         <p class="card-text">Doanh số hệ thống</p>
                     </div>
                 </div>
@@ -53,48 +53,80 @@
                 ĐƠN HÀNG MỚI
             </div>
             <div class="card-body">
-                <table class="table table-striped">
+                <table class="table table-striped table-checkall">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Mã</th>
+                            <th scope="col">Mã đơn hàng</th>
+                            <th scope="col">Mã KH</th>
                             <th scope="col">Khách hàng</th>
-                            <th scope="col">Sản phẩm</th>
                             <th scope="col">Số lượng</th>
-                            <th scope="col">Giá trị</th>
+                            <th scope="col">Tổng giá</th>
+                            <th scope="col">Chi tiết</th>
                             <th scope="col">Trạng thái</th>
                             <th scope="col">Thời gian</th>
                             <th scope="col">Tác vụ</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (!empty($orders))
+
+                        @if (!empty($clients))
                             @php
                                 $cnt = 0;
                             @endphp
-                            @foreach ($orders as $order)
+                            @foreach ($clients as $client)
                                 @php
                                     $cnt++;
+                                    $status_translate = [
+                                        'pending' => 'Chờ duyệt',
+                                        'approved' => 'Đã duyệt',
+                                        'delivering' => 'Đang vận chuyển',
+                                        'received' => 'Đã giao',
+                                        'paid' => 'Đã thanh toán',
+                                    ];
                                 @endphp
                                 <tr>
-                                    <th scope="row">{{ $cnt }}</th>
-                                    <td>{{ $order->code_user }}</td>
+                                    <td>{{ $cnt }}</td>
+                                    <td>{{ $client->code_order }}</td>
+                                    <td>{{ $client->code_client }}</td>
                                     <td>
-                                        {{ $order->name }} <br>
-                                        {{ $order->phone_number }}
+                                        {{ $client->name }} <br>
+                                        {{ $client->phone }} <br>
+                                        {{ $client->email }}
                                     </td>
-                                    <td><a href="#">{{ $order->product_name }}</a></td>
-                                    <td>{{ $order->qty }}</td>
-                                    <td>{{ number_format($order->qty * $order->price, 0, ',', '.') }}₫</td>
-                                    @if ($order->status == 'completed')
-                                        <td><span class="badge badge-success">Đã hoàn thành</span></td>
+                                    <td class="text-center">{{ $client->num_order }}</td>
+                                    <td>{{ number_format($client->total, 0, ',', '.') }} đ</td>
+                                    <td><a href="{{ route('order.detail', $client->id) }}">Xem chi tiết</a></td>
+                                    @if ($client->status == 'pending')
+                                        <td>
+                                            <span
+                                                class="badge badge-danger">{{ $status_translate[$client->status] }}</span>
+                                        </td>
+                                    @elseif ($client->status == 'approved')
+                                        <td>
+                                            <span class="badge badge-info">{{ $status_translate[$client->status] }}</span>
+                                        </td>
+                                    @elseif ($client->status == 'delivering')
+                                        <td>
+                                            <span
+                                                class="badge badge-secondary">{{ $status_translate[$client->status] }}</span>
+                                        </td>
+                                    @elseif ($client->status == 'received')
+                                        <td>
+                                            <span
+                                                class="badge badge-primary">{{ $status_translate[$client->status] }}</span>
+                                        </td>
                                     @else
-                                        <td><span class="badge badge-warning">Đang chờ xử lý</span></td>
+                                        <td>
+                                            <span
+                                                class="badge badge-success">{{ $status_translate[$client->status] }}</span>
+                                        </td>
                                     @endif
-                                    <td>{{ $order->created_at }}</td>
+
+                                    <td>{{ $client->created_at }}</td>
                                     <td>
-                                        <a href="{{ route('dashboard.delete', $order->id) }}"
-                                            onclick="return confirm('Bạn có chắc chắn xóa khách hàng này!');"
+                                        <a href="{{ route('order.delete', $client->id) }}"
+                                            onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng này không?'); "
                                             class="btn btn-danger btn-sm rounded-0 text-white" type="button"
                                             data-toggle="tooltip" data-placement="top" title="Delete"><i
                                                 class="fa fa-trash"></i></a>
@@ -103,15 +135,15 @@
                             @endforeach
                         @else
                             <tr>
-                                <td class="text-danger" colspan="9">
-                                    <strong>Không có đơn hàng nào!</strong>
+                                <td class="text-danger" colspan="11">
+                                    <strong>Không có bản ghi nào!</strong>
                                 </td>
                             </tr>
                         @endif
                     </tbody>
                 </table>
-                @if (!empty($orders))
-                    {{ $orders->links() }}
+                @if (!empty($clients))
+                    {{ $clients->links() }}
                 @endif
             </div>
         </div>

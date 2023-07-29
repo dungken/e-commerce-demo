@@ -1,12 +1,56 @@
 /*RESPONSIVE*/
 @media screen and (max-width: 1170px){
     .wp-inner{ width: 100%; padding-left: 10px; padding-right: 10px;}
+    #head-body #search-wp {
+        padding: 22px 0px 22px 10px;
+    }
 }
 
 @media screen and (max-width: 1024px){
     /*HEADER*/
-    #head-body #search-wp{ padding: 22px 0px 22px 90px;}
-    #advisory-wp{ padding: 15px 10px 15px 50px;}
+    #head-body #logo {
+        display: block;
+        text-transform: uppercase;
+        font-family: 'Roboto Medium';
+        color: #fff;
+        padding: 13px 0px;
+        max-width: 210px;
+    }
+
+    #head-body #search-wp #s {
+        display: inline-block;
+        width: 300px;
+        border: none;
+        outline: none;
+        padding: 8px 14px;
+        line-height: normal;
+    }
+
+    /* PRODUCT FEATURE */
+    .owl-wrapper .owl-item li .action{
+        display: flex;
+        justify-content: space-around;
+    }
+    #feature-product-wp .list-item li .action a{
+        display: block;
+        padding: 2px 5px;
+        font-size: 12px;
+    }
+    /*LIST PRODUCT BY CAT FOR HOME */
+    #list-product-wp .section-detail ul.list-item li div.action{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    #list-product-wp .section-detail ul.list-item li .action a{
+        display: block;
+        padding: 2px 5px;
+        font-size: 12px;
+    }
+
+    /*  */
+    #head-body #search-wp{ padding: 22px 0px 22px 23px;}
+    #advisory-wp{ display: none;}
     #cart-wp{ margin-left: 10px;}
     #btn-respon{ display: block; margin-left: 35px; font-size: 21px; padding: 27px 0px; color: #fff; cursor: pointer;}
     #site{ position: relative; overflow: hidden;}
@@ -33,11 +77,32 @@
     /*MAIN CONTENT*/
     .sidebar{ display: none;}
     .main-content{ width: 100%; float: none; margin-left: 0;}
+    /* CAT PRODUCT */
+    #products-filter li .action{
+        display: flex;
+        justify-content: space-around;
+    }
     /*DETAIL PRODUCT*/
     .thumb-wp{ display: none;}
     .thumb-respon-wp{ display: block;}
+    #same-category-wp .list-item li .action{
+        display: flex;
+        justify-content: space-around;
+    }
+    #same-category-wp .list-item li .action a {
+        display: block;
+        padding: 3px 4px;
+        font-size: 12px;
+    }
     /*FOOTER*/
-
+    #footer-wp #foot-body {
+        padding: 50px 0px;
+        font-size: 11px;
+    }
+    /* CART */
+    #info-cart-wp table thead tr td {
+        font-size: 13px;
+    }
     /*CHECK OUT*/
     #to-checkout-wp .shop-table tbody tr td{ white-space: nowrap;}
 }
@@ -48,8 +113,8 @@
     #head-body #search-wp #s{ width: 325px; padding: 8px 15px;}
     #head-body #search-wp #sm-s{ padding: 10px 15px;}
     #advisory-wp{ display: none;}
-    #head-body #logo{ padding: 25px 0px; font-size: 28px;}
-    #head-body #search-wp{ padding: 20px 0px 20px 50px;}
+    #head-body #logo{ padding: 14px 0px 0px 0px;}
+    #head-body #search-wp{ padding: 22px 0px 2px 10px;}
     #head-body #search-wp #s{ line-height: 18px;}
     #head-body #search-wp #sm-s{ line-height: 14px;}
     #cart-wp i{ font-size: 18px;}
@@ -74,6 +139,11 @@
     #customer-info-wp .form-row{ padding-bottom: 15px;}
     .checkout-page #main-content .section:nth-child(2){ padding-left: 20px;}
     #customer-info-wp .form-row .form-col{ padding-right: 10px;}
+    /* FOOTER */
+    #footer-wp #foot-body {
+        padding: 50px 0px;
+        font-size: 14px;
+    }
 }
 
 @media screen and (max-width: 600px){
@@ -86,6 +156,18 @@
     #list-product-wp .section-detail .list-item li:nth-child(2n){ margin-right: 0!important;}
     /*DETAIL PRODUCT*/
     #detail-product-wp .add-cart{ font-size: 14px;}
+    /* MAIN BLOG */
+    #list-blog-wp .info .title {
+        font-size: 15px;
+        line-height: 22px;
+    }
+    #list-blog-wp .info .create-date {
+        font-size: 12px;
+    }
+    #list-blog-wp .info .desc {
+        line-height: 21px;
+        color: #514e4e;
+    }
     /*DETAIL BLOG*/
     #detail-blog-wp .section-title{ font-size: 21px;}
     /*FOOTER*/
@@ -112,8 +194,14 @@
 }
 
 @media screen and (max-width: 414px){
+
     /*HEADER*/
     #main-menu-wp{ display: none;}
+    /* SUPPORT PAY */
+    #support-wp .section-detail ul.list-item{
+        display: flex;
+    }
+
     /*MAIN CONTENT*/
     .home-page#main-content-wp{ padding-top: 0;}
     #slider-wp{ display: none;}
@@ -121,7 +209,7 @@
     #support-wp .section-detail .list-item li:before{ display: none; }
     .home-page #main-content-wp{ padding-top: 0;}
     #main-content-wp{ padding-bottom: 50px;}
-    #feature-product-wp .list-item li .action a, #list-product-wp .list-item li .action a, #same-category-wp .list-item li .action a{ padding: 2px 5px;}
+    #feature-product-wp .list-item li .action a, #list-product-wp .list-item li .action a, #same-category-wp .list-item li .action a{ padding: 2px}
     #feature-product-wp .list-item li .price, #list-product-wp .list-item li .price, #same-category-wp .list-item li .price{ font-size: 12px!important;}
     #feature-product-wp .list-item li .product-name, #list-product-wp .list-item li .product-name, #same-category-wp .list-item li .product-name{
         display: -webkit-box;
@@ -140,6 +228,7 @@
     #detail-product-wp .info .num-product{ margin-bottom: 20px;}
     #detail-product-wp .info .price{ margin-bottom: 25px;}
     #detail-product-wp .add-cart{ padding: 10px 25px;}
+
     /*BLOG*/
     #list-blog-wp .info .title{ font-size: 16px; line-height: 24px; font-family: 'Roboto Medium';}
     #list-blog-wp .info .desc{ line-height: 21px;}
@@ -150,15 +239,23 @@
     #customer-info-wp .form-row .form-col input[type="text"], #customer-info-wp .form-row .form-col input[type="email"], #customer-info-wp .form-row .form-col input[type="tel"], #customer-info-wp .form-row:nth-child(3) .form-col textarea{ padding: 5px 10px;}
     #customer-info-wp .form-row{ padding-bottom: 15px;}
     /*FOOTER*/
-    #footer-wp #foot-body{ padding: 30px 0px;}
+    #footer-wp #foot-body{ padding: 30px 13px;}
     .menu-ft .title, #newfeed .title, #info-company .title{ font-size: 21px;}
 }
 
 @media screen and (max-width: 375px){
+    /* LOGO */
+    #head-body #logo {
+        width: 178px;
+    }    
     /*HOME*/
+
     #list-product-wp .section-detail .list-item li{ width: 100%; margin-right: 0!important; margin-bottom: 4%;}
     #list-product-wp .section-detail .list-item li:last-child{ margin-bottom: 0!important;}
     #feature-product-wp .list-item li .action a, #list-product-wp .list-item li .action a, #same-category-wp .list-item li .action a{ padding: 5px 20px;}
+    #list-product-wp .section-detail ul.list-item li .action a{
+        padding: 1px;
+    }
     /*CATEGORY PRODUCT*/
     .filter-wp form select{ padding: 5px;}
     .filter-wp form button{ padding: 3px 10px;}

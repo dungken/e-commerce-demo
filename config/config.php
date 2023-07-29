@@ -11,7 +11,7 @@
  * 
  */
 
-$config['base_url'] = "http://localhost/BackEnd/PHPMASTER/project/dungdev.com/ismart.com/";
+$config['base_url'] = "http://localhost/Project/vandunghastore.com/";
 
 
 $config['default_module'] = 'home';

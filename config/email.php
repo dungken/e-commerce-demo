@@ -20,22 +20,16 @@
 
 $config['email'] = Array(
     'protocol' => 'smtp',
-    'smtp_host' => 'smtp.gmail.com',
+    'smtp_host' => 'ssl://smtp.googlemail.com',
     'smtp_port' => 465,
-    'smtp_user' => 'phpmaster.dungken.dev@gmail.com',
-    'smtp_pass' => 'ntxtktklrnwprjru',
-    'fullname' => 'Dung Dev',
+    'smtp_user' => 'vandunghastore@gmail.com',
+    'smtp_pass' => 'ucsitapglegbacut',
+    'fullname' => 'VDHSTORE.COM',
     'smtp_timeout' => '7',
     'mailtype' => 'html',
     'charset' => 'UTF-8'
 );
 
+
 global $config;
 
-// $config = array(
-//     'host' => 'smtp.gmail.com',
-//     'username' => 'phpmaster.dungken.dev@gmail.com',
-//     'fullname' => 'Dung Dev',
-//     'password'=> 'ntxtktklrnwprjru',
-//     'port' => 465
-// );

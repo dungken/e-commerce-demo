@@ -20,6 +20,7 @@ class PageController extends Controller
 
     public function store(Request $request)
     {
+
         $request->validate(
             [
                 'name' => ['required', 'string', 'max:255'],
@@ -36,11 +37,16 @@ class PageController extends Controller
             ]
         );
 
+        $slug = Str::slug($request->input('name'));
+
+        // return $slug;
+
         Page::create(
             [
                 'name' => $request->input('name'),
                 'content' => $request->input('content'),
                 'status' => $request->input('status'),
+                'slug' => $slug
             ]
         );
 
@@ -67,7 +73,7 @@ class PageController extends Controller
                 'restore' => 'Khôi phục',
                 'forceDelete' => 'Xóa vĩnh viễn'
             ];
-            $pages = Page::where('name',  'LIKE', "%{$keyword}%")->onlyTrashed()->paginate(3);
+            $pages = Page::where('name',  'LIKE', "%{$keyword}%")->onlyTrashed()->paginate(8);
         } else if ($request->status == 'waiting') {
             $status = 'waiting';
             $action = [
@@ -80,7 +86,7 @@ class PageController extends Controller
                     ['status', '0'],
                     ['name', 'LIKE', "%{$keyword}%"]
                 ]
-            )->paginate(3);
+            )->paginate(8);
         } else {
             $status = 'public';
             $action = [
@@ -92,7 +98,7 @@ class PageController extends Controller
                     ['status', '1'],
                     ['name', 'LIKE', "%{$keyword}%"]
                 ]
-            )->paginate(3);
+            )->paginate(8);
         }
 
         if ($pages->total() == 0) {
